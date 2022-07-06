@@ -13,6 +13,7 @@ Change Script Configurations at: "config.json"
 
 This program was possible thanks to 
 - IceLand
+- Mizogg
 
 ### Disclaimer
 
