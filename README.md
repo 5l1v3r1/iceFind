@@ -1,6 +1,6 @@
 # iceFind ( BTC, ETH, LTC, DOGE, ... )
 
-Change Script Configurations at: "config.json"
+Btcbf is a fast and efficient bitcoin private key brute force tool written in python.
 
 ### Quick start
 
@@ -8,6 +8,8 @@ Change Script Configurations at: "config.json"
     $ cd iceFind
     
     $ python3 iceFind.py
+
+Change Script Configurations at: "config.json"
 
 ### Disclaimer
 
