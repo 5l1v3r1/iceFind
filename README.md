@@ -9,12 +9,6 @@ Change Script Configurations at: "config.json"
     
     $ python3 iceFind.py
 
-## Thanks
-
-This program was possible thanks to 
-- IceLand
-- Mizogg
-
 ### Disclaimer
 
 ALL THE CODES, PROGRAM AND INFORMATION ARE FOR EDUCATIONAL PURPOSES ONLY.
