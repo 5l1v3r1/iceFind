@@ -5,7 +5,7 @@ iceFind is a fast and efficient bitcoin private key brute force tool written in 
 ### Quick start
 
     $ git clone https://github.com/pwdex/iceFind
-    $ cd iceFind
+    $ cd iceFind-main
     
     $ python3 iceFind.py
 
