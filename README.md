@@ -23,6 +23,12 @@ This Python script has multiple functions:
     $ 8 => Even Numbers [ASC]
     $ 9 => Even Numbers [DESC]
 
+
+## Donations
+
+- BTC: bc1qjvazvvl84jwt28c3d87k8jetg7k66hz6mrxmz3
+
+
 ### Disclaimer
 
 THIS IS FOR EDUCATIONAL PURPOSES ONLY, YOU ARE RESPONSIBLE FOR YOUR ACTIONS
