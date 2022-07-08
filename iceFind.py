@@ -1,4 +1,5 @@
 import random, time, sys, os, hmac, struct, datetime, subprocess
+from datetime import datetime
 from random import randint
 import hashlib, base58, binascii, threading, json
 import secp256k1 as ice
@@ -15,38 +16,42 @@ def load_settings():
     settings_config = json.loads(open(f"{filename}","r").read())
     coins_string = ""
 
-    print(f"""
-  Change Script Configurations at: \"{filename}\"
-""")
-
     for coin in settings_config["coins"]:
         if settings_config["coins"][coin]["enabled"] == True:
             coins_to_search.append(coin)
-            load_addresses(settings_config["coins"][coin]["address_file"],settings_config["coins"][coin]["name"])
+            load_addresses(settings_config["coins"][coin]["address_file"])
     for coin in coins_to_search: coins_string += "  - "+coin+"\n"
     
     addr_count = len(arr)
-    print("\n  Addresses loaded: " + str(addr_count))
-
+    now = datetime.now()
+    time = now.strftime("%H:%M:%S")
+    print(f"[{time}] Addresses loaded: " + str(addr_count))
+    print(f"""
+    
+  Change Script Configurations at: \"{filename}\"
+""")
     range = settings_config["myRange"]
     start_range = range["min"]
     end_range = range["max"]
+    jump_size = settings_config["jump_size"]
     if end_range > 904625697166532776746648320380374280100293470930272690489102837043110636675 or start_range<1:
-        print("\n  Invalid range!\n  Change myRange at \"config.json\" before executing!\n")
+        print("\n  Invalid range!\n  Change Range at \"config.json\" before executing!\n")
         stop = True
         
     if stop == False:
         print(f"""
   Searching from {start_range} to {end_range}
-    
-  Enabled Search for:
-{coins_string[:-1]}
-    """)  
+  
+  Magnitude/Jump {jump_size}
+
+  """)  
         
 
-def load_addresses(filename,coinName):
+def load_addresses(filename):
     global addresses, arr
-    print(f"  Loading Addresses for {coinName} from \"{filename}\"")
+    now = datetime.now()
+    time = now.strftime("%H:%M:%S")
+    print(f"[{time}] Creating database from \"{filename}\" ...Please Wait...")
     with open(filename) as in_file:
         for addr in in_file:
             bit_addr = addr.strip()
@@ -103,38 +108,10 @@ def get_page(page):
 : Private Key WIF UnCompressed      : {privKey}
 : Private Key WIF Compressed        : {privKey_C}
 =====================================
-: {settings_config["coins"][coin]["name"]} Address Compressed        : {CAddr}
-: {settings_config["coins"][coin]["name"]} Address UnCompressed      : {UAddr}
-: {settings_config["coins"][coin]["name"]} Address Bech32            : {BAddr}
-: {settings_config["coins"][coin]["name"]} Address Segwit            : {SAddr}
-====================================="""
-                        f.write(output)
-            elif coin == "ETH":
-                EAddr = ice.privatekey_to_ETH_address(dec).strip() 
-                if EAddr in arr:
-                    found+=1
-                    with open("winner.txt", "a", encoding="utf-8") as f:
-                        output = f"""\n
-=====================================
-: Private Key Page                  : {privKeyPage}
-: Private Key HEX                   : {starting_key_hex}
-=====================================
-: {settings_config["coins"][coin]["name"]} Address                   : {CAddr}
-====================================="""
-                        f.write(output)
-            else:
-                CAddr = ice.privatekey_to_coinaddress(settings_config["coins"][coin]["code"], 0, True, dec).strip() # Compressed
-                UAddr = ice.privatekey_to_coinaddress(settings_config["coins"][coin]["code"], 0, False, dec).strip() # Uncompressed
-                if CAddr in arr or UAddr in arr:
-                    found+=1
-                    with open("winner.txt", "a", encoding="utf-8") as f:
-                        output = f"""\n
-=====================================
-: Private Key Page                  : {privKeyPage}
-: Private Key HEX                   : {starting_key_hex}
-=====================================
-: {settings_config["coins"][coin]["name"]} Address Compressed        : {CAddr}
-: {settings_config["coins"][coin]["name"]} Address UnCompressed      : {UAddr}
+: BTC Address Compressed        : {CAddr}
+: BTC Address UnCompressed      : {UAddr}
+: BTC Address Bech32            : {BAddr}
+: BTC Address Segwit            : {SAddr}
 ====================================="""
                         f.write(output)
         startPrivKey += 1
@@ -268,7 +245,7 @@ if __name__ == "__main__":
     load_settings()
 
     if stop == False:
-        typeScans = ["Range + Jump [ASC]","Range + Jump [DESC]","Sequencial [ASC]","Sequencial [DESC]","Sequencial + Random","Random","Odd Numbers [ASC]","Odd Numbers [DESC]","Even Numbers [ASC]","Even Numbers [DESC]"]
+        typeScans = ["Range + Jump [Forward]","Range + Jump [Backward]","Sequencial [Forward]","Sequencial [Backward]","Sequencial + Random","Random","Odd Numbers [Forward]","Odd Numbers [Backward]","Even Numbers [Forward]","Even Numbers [Backward]"]
         scanN = 0
         print("  Please choose how to scan:")
         for scan in typeScans:
@@ -277,7 +254,7 @@ if __name__ == "__main__":
         
         inputUserTypeScan = -1
         while inputUserTypeScan<0 or inputUserTypeScan>len(typeScans):
-            inputUserTypeScan = int(input("\n  TypeScan: "))
+            inputUserTypeScan = int(input("\n  Scan Type Number : "))
 
         typeScan = typeScans[inputUserTypeScan]
 
