@@ -1,4 +1,4 @@
-# iceFind ( BTC, ETH, LTC, DOGE, ... )
+# iceFind
 
 iceFind is a fast and efficient bitcoin private key brute force tool written in python.
 
