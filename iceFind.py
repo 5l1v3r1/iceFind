@@ -232,7 +232,7 @@ def search_stats():
             pages_per_second = 0
             addresses_per_second = (pages_per_second*128)*len(coins_to_search)
         dots = random.choice(["   ",">  ",">> ",">>>"])
-        print(" Searching %s (%s Addresses/s | %s Pages/s) | MODE: %s | Actual Page: %s | Found: %s"%(dots,addresses_per_second,pages_per_second,typeScan,actual_page,found), end="\r")
+        print(" Searching %s [%s Addresses/s - %s Pages/s] | MODE: %s | Actual Page: %s | Found: %s"%(dots,addresses_per_second,pages_per_second,typeScan,actual_page,found), end="\r")
 
 if __name__ == "__main__":
     addresses = list()   
